@@ -1,24 +1,24 @@
 &testlist /
 
 &filelist
-	filenameini='configs/3D_128_spic_bin_np080101.ini'
+	filenameini='configs/3D_128_spic_bvert20G_bin_np080101.ini'
 
 	typefileini='binary'
 	filename=   'results/3D_spic_128_128_128.log',
-		    'results/3D_spic_128_128_128.out'
+		    '/fastdata/cs1mkg/sac/p5b0_1_bv20g/3D_spic_128_bv20G.out'
 	typefileout='binary'
         fullgridout= T
         fullgridini= T
  /
 
 &savelist
-ditsave(1)=20
-ditsave(2)=20
+ditsave(1)=1000
+ditsave(2)=1000
 
  /
 
  &stoplist
-	itmax=200
+	itmax=500000
  /
 
  &methodlist
@@ -44,5 +44,8 @@ ditsave(2)=20
 
  &paramlist
 	courantpar=0.2
+        dtpar=0.001
+        dtcantgrow=T
+
 
  /
