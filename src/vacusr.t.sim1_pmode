@@ -20,7 +20,7 @@ double precision:: p_1,p_2
 
 integer:: mn1,mn2
 integer:: iii_,iix_1,info,i,j
-double precision:: pi,comi,eneu,sum,mode,bmax,l
+double precision:: comi,eneu,sum,mode,bmax,l
 character*79 atmfilename
 
 integer:: ix_1,ix_2,ix_3
@@ -29,7 +29,7 @@ double precision:: ixc_1,ixc_2,ixc_3
 double precision:: rfc,a1,a2,a3
 
 
-double precision:: xc2,xc3,x_max,r_0,r_tr,b_Amp,delta,r2,r3,r_tec,delta_z,s_period
+double precision:: xc1,xc2,xc3,x_max,r_0,r_tr,b_Amp,delta,r2,r3,r_tec,delta_z,s_period
 
 !-----------------------------------------------------------------------------
 

@@ -12,13 +12,13 @@
  /
 
 &savelist
-ditsave(1)=1000
-ditsave(2)=1000
+ditsave(1)=1
+ditsave(2)=1
 
  /
 
  &stoplist
-	itmax=500000
+	itmax=5000
  /
 
  &methodlist
