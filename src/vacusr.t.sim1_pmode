@@ -272,7 +272,7 @@ double precision:: Vphi, bphi, Vr, tt0, ddt, AA, max_vx, max_vy
 
 !*****************
 double precision:: t01,t02,a1,a2,s1,s2,sf,rad,rfc,sdep,tdeps,tdep, tdepc, sigma2
-double precision:: xxmax, yymax,xp,yp,xmin,ymin
+double precision:: xxmax, yymax,xp,yp,xmin,ymin, zmin
 double precision:: s_period120, s_period90, s_period60, s_period30
 double precision:: s_period180, s_period240, s_period300, s_period350
 double precision:: norm, am, delta_x, delta_y, hh, qt_t
@@ -292,9 +292,9 @@ call addsource_grav(qdt,ixI^L,ixO^L,iws,qtC,wCT,qt,w)
 if(abs(eqpar(nu_))>smalldouble)&
    call addsource_visc(qdt,ixI^L,ixO^L,iws,qtC,wCT,qt,w)
  
-xc1Mm=0.05   !Mm        z axis
-xc2Mm=1.0 !0.99d0  !Mm        x axis
-xc3Mm=1.0 !0.99d0  !Mm        y axis
+xc1Mm=0.5   !Mm        z axis
+xc2Mm=2.0 !0.99d0  !Mm        x axis
+xc3Mm=2.0 !0.99d0  !Mm        y axis
 
 
 xz=xc1Mm*1.0d6  !m        z axis
@@ -304,7 +304,7 @@ xc3=xc3Mm*1.0d6  !m        y axis
 n1=0
 n2=1
 
-s_z=16000.d0 !m z axis
+s_z=4.0d3 !m z axis
 
 delta_x=300000.d0   !m
 delta_y=300000.d0   !m
@@ -313,8 +313,9 @@ s_r0=50000.d0       !m
 
 yymax=4.0d6
 xxmax=4.0d6
-xmin=-2.0d6
-ymin=-2.0d6
+xmin=1.9531d3
+ymin=1.9531d3
+zmin=1.33333d5
 
 AA=200.d0 ! for s_period 120 s
 
