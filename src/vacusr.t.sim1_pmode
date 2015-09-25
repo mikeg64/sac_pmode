@@ -260,12 +260,13 @@ double precision:: fsokr,avgflux
 
 integer:: iw,iiw,iix_1
 
-integer:: ix_1,ix_2,ix_3,n1,n2
+integer:: ix_1,ix_2,ix_3,n1,n2,ix
 
 
-double precision:: s_period,xz,xc2,xc3,s_z,delta_r,s_r0,vvv
+double precision:: s_period,xz,xc2,xc3,s_z,delta_r,s_r0,vvv,vvva,vvvs
 double precision:: xc1Mm,xc2Mm,xc3Mm
 double precision:: xx, yy
+
 double precision:: r(ixG^T), vvx(ixG^T), vvy(ixG^T), vvz(ixG^T)
 double precision:: bbx(ixG^T), bby(ixG^T)
 double precision:: Vphi, bphi, Vr, tt0, ddt, AA, max_vx, max_vy
@@ -275,7 +276,7 @@ double precision:: t01,t02,a1,a2,s1,s2,sf,rad,rfc,sdep,tdeps,tdep, tdepc, sigma2
 double precision:: xxmax, yymax,xp,yp,xmin,ymin, zmin
 double precision:: s_period120, s_period90, s_period60, s_period30
 double precision:: s_period180, s_period240, s_period300, s_period350
-double precision:: norm, am, delta_x, delta_y, hh, qt_t
+double precision:: norm, am, delta_x, delta_y, hh, qt_t,dz, midp2, midp3,r1,zp
 !-----------------------------------------------------------------------------
 
 eqpar(eta_)=0.d0
@@ -293,6 +294,7 @@ if(abs(eqpar(nu_))>smalldouble)&
    call addsource_visc(qdt,ixI^L,ixO^L,iws,qtC,wCT,qt,w)
  
 xc1Mm=0.5   !Mm        z axis
+!xc1Mm=0.8   !Mm        z axis
 xc2Mm=2.0 !0.99d0  !Mm        x axis
 xc3Mm=2.0 !0.99d0  !Mm        y axis
 
@@ -302,13 +304,15 @@ xc2=xc2Mm*1.0d6  !m        x axis
 xc3=xc3Mm*1.0d6  !m        y axis
 
 n1=0
-n2=1
+n2=0
 
 s_z=4.0d3 !m z axis
+!s_z=93750 !m z axis
 
 delta_x=300000.d0   !m
 delta_y=300000.d0   !m
-
+!dz=46953.41
+dz=45588.5748405
 s_r0=50000.d0       !m
 
 yymax=4.0d6
@@ -317,17 +321,29 @@ xmin=1.9531d3
 ymin=1.9531d3
 zmin=1.33333d5
 
-AA=200.d0 ! for s_period 120 s
+AA=1250.d0 ! for s_period 120 s
 
 s_period=300.d0
  
 tdeps=sin(qt*2.d0*pi/s_period) 
 
-
+midp2=(ixImax2-ixImin2)/2
+midp3=(ixImax3-ixImin3)/2
 
 do ix_1=ixImin1,ixImax1
+
+
+
  do ix_2=ixImin2,ixImax2
   do ix_3=ixImin3,ixImax3
+
+ ix=ix_1+8*ipe
+
+ if(ix>1)then
+	zp=zmin+   ( (ix-2  )    *dz     )
+ else
+	zp=zmin+   ( ix     *dz     )
+ endif
 
 
 
@@ -341,30 +357,42 @@ do ix_1=ixImin1,ixImax1
 !tdep=sin(qt*2.0*PI/s_period);
 !vvz=AA*exp_xyz*tdep;
 
-
- xp=xmin+x(ix_1,ix_2,ix_3,2)
- yp=ymin+x(ix_1,ix_2,ix_3,3)
- vvv=exp(-(x(ix_1,ix_2,ix_3,1)-xz)**2.d0/s_z**2.d0)
- vvv=vvv*sin(pi*(n1+1)*xp/xxmax)
- vvv=vvv*sin(pi*(n2+1)*yp/yymax)
+ r1=zp-xz
+ xp=x(ix_1,ix_2,ix_3,2)
+ yp=x(ix_1,ix_2,ix_3,3)
+ vvva=exp(-((r1)/s_z)**2.d0)
+ vvvs=sin(pi*(n1+1)*xp/xxmax)*sin(pi*(n2+1)*yp/yymax)
+! vvv=vvv*sin(pi*(n2+1)*yp/yymax)
 !vvv=vvv*exp(-(x(ix_1,ix_2,ix_3,2)-xc2)**2.d0/delta_x**2.d0)
 !vvv=AA*vvv*exp(-(x(ix_1,ix_2,ix_3,3)-xc3)**2.d0/delta_y**2.d0)*tdeps
 
 
 
- vvv=AA*vvv*tdeps
+ vvv=AA*vvva*vvvs*tdeps
   
 
-w(ix_1,ix_2,ix_3,m3_)= w(ix_1,ix_2,ix_3,m3_)+(w(ix_1,ix_2,ix_3,rho_)+&
-                      w(ix_1,ix_2,ix_3,rhob_))*vvv*qdt
+w(ix_1,ix_2,ix_3,m1_)= w(ix_1,ix_2,ix_3,m1_)+(w(ix_1,ix_2,ix_3,rho_)&
+   +w(ix_1,ix_2,ix_3,rhob_))*vvv*qdt
 
-w(ix_1,ix_2,ix_3,e_)=w(ix_1,ix_2,ix_3,e_)+(w(ix_1,ix_2,ix_3,rho_)+w(ix_1,ix_2,ix_3,rhob_))*&
-                      vvv**2.d0*qdt/2.d0
-		      
+w(ix_1,ix_2,ix_3,e_)=w(ix_1,ix_2,ix_3,e_)+(w(ix_1,ix_2,ix_3,rho_)&
+   +w(ix_1,ix_2,ix_3,rhob_))*vvv**2.d0*qdt/2.d0
+ 
 
+!	if (ipe.eq.0.and.qt.le.qdt.and.ix_2.eq.midp2.and.ix_3.eq.midp3) then
+!		write(*,*) pi,vvvs,vvva,ix_1,r1,zp
+!	endif
+
+
+                     
+!     if (ix_1.eq.11.and.qt.le.(2*qdt)) then
+!          write(*,*) '***time=',ipe,qt,vvv,xp/1.d6,yp/1.d6
+!     endif
 
    enddo
  enddo
+
+
+
 enddo
 
 
