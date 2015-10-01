@@ -1,24 +1,24 @@
 &testlist /
 
 &filelist
-	filenameini='/home/polaris_she1/shexs/large/VAC_3D/setting010202/3D_196_100_100_np010202.ini'
+	filenameini='configs/3D_128_spic_bin_np160101.ini'
 
 	typefileini='binary'
-	filename=   '/home/polaris_she1/shexs/large/VAC_3D/3D_tube_196_100_100_vertical.log',
-		    '/home/polaris_she1/shexs/large/VAC_3D/3D_tube_196_100_100_vertical.out'
+	filename=   'results/3D_spic_128_128_128.log',
+		    '/fastdata/cs1mkg/sac/p5b0_1_bv20g/3D_spic_128a.out'
 	typefileout='binary'
         fullgridout= T
         fullgridini= T
  /
 
 &savelist
-ditsave(1)=100
-ditsave(2)=100
+ditsave(1)=1000
+ditsave(2)=1000
 
  /
 
  &stoplist
-	itmax=20
+	itmax=600000
  /
 
  &methodlist
@@ -33,16 +33,19 @@ ditsave(2)=100
  /
 
  &boundlist
-	typeB='fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed'
-              'fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed'
-              'fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed'
-              'fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed'
-              'fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed'
-              'fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed','fixed'
+	typeB='cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
 		
  /
 
  &paramlist
 	courantpar=0.2
+        dtpar=0.001
+        dtcantgrow=T
+
 
  /
