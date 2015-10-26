@@ -1,0 +1,51 @@
+&testlist /
+
+&filelist
+	filenameini='configs/3D_128_spic_bvert10G_bin_np160101.ini'
+
+	typefileini='binary'
+	filename=   'results/3D_spic_128_128_128.log',
+		    '/fastdata/cs1mkg/sac/p5b0_1_bv10g/3D_spic_128_bv10g.out'
+	typefileout='binary'
+        fullgridout= T
+        fullgridini= T
+ /
+
+&savelist
+ditsave(1)=1000
+ditsave(2)=1000
+
+ /
+
+ &stoplist
+	itmax=600000
+ /
+
+ &methodlist
+
+	wnames=		'h 	m1  	 m2  	m3	e	b1	b2	b3	eb	rhob	bg1	bg2	bg3'
+	typefull=	8*'cd4',5*'nul'
+        typeadvance=    'onestep'
+	typefilter=	13*'nul'
+	dimsplit=	F
+	sourcesplit=	F
+	divBfix=	F
+ /
+
+ &boundlist
+	typeB='cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+              'cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont','cont'
+		
+ /
+
+ &paramlist
+	courantpar=0.2
+        dtpar=0.001
+        dtcantgrow=T
+
+
+ /

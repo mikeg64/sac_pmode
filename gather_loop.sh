@@ -17,19 +17,21 @@ echo $HOSTNAME
 
 
 #n=$1
-n=2
-i=1  
+n=141
+i=2
+j=73
 g=1 # step
 
 
     while [ $i -le $n  ]
     do
 
-		data/distribution -s=$i /fastdata/cs1mkg/sac/p5b0_1_bv20g/3D_spic_128a_np160101.out /fastdata/cs1mkg/sac/p5b0_1_bv20g/3D_spic_128a.out
-	       mv /fastdata/cs1mkg/sac/p5b0_1_bv20g/3D_spic_128a.out /fastdata/cs1mkg/sac/p5b0_1_bv20g/3D_spic_128a_$i.out
+		data/distribution -s=$i /fastdata/cs1mkg/sac/p5b0_1_bv10g/3D_spic_128_bv10g_np160101.out /fastdata/cs1mkg/sac/p5b0_1_bv10g/3D_spic_128_bv10g.out
+	       mv /fastdata/cs1mkg/sac/p5b0_1_bv10g/3D_spic_128_bv10g.out /fastdata/cs1mkg/sac/p5b0_1_bv10g/3D_spic_128_bv10g_$j.out
               i=`expr $i + $g`
+              j=`expr $j + $g`
               echo $i
-              echo "/fastdata/cs1mkg/sac/p5b0_1_bv20g/3D_spic_128_$i.out"
+              echo "/fastdata/cs1mkg/sac/p5b0_1_bv10g/3D_spic_128_bv10g_$j.out"
 
 
     done
