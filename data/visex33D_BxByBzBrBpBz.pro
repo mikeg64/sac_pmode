@@ -1,3 +1,6 @@
+;Plots sections through modelling for v field and B filed 
+;provides vector plots
+
 tarr=dblarr(1)
 maxa=fltarr(1)
 mina=fltarr(1)
@@ -19,6 +22,29 @@ endif else begin
 loadct,0
 tek_color
 endelse
+
+
+
+;sectio parameters here
+scale=1.d6
+
+R=8.3e+003
+mu=1.257E-6
+mu_gas=0.6
+gamma=1.66667
+
+xstart=0
+xend=99
+ystart=0
+yend=99
+
+pp=50 ;x
+kk=5  ;y
+
+
+zstart=0
+zend=127
+
 
 
 
@@ -65,7 +91,8 @@ close,2
 
 ;openr,1,'/data/ap1vf/background_3Dtube.ini',/f77_unf
 
-openr,1,'/data/ap1vf/3D_tube_196_100_100_120s_full.out',/f77_unf
+;openr,1,'/data/ap1vf/3D_tube_196_100_100_120s_full.out',/f77_unf
+openr,1,'/fastdata/cs1mkg/sac/p5b0_0_bv10g_a1250/3D_spic_128_bv10g_13.out',/f77_unf
 
 ;openr,1,'/data/ap1vf/3D_tube_196_100_100_200s_puls.out',/f77_unf
 
@@ -133,27 +160,9 @@ label_Bx='Bx'
 label_By='By'
 label_Bz='Bz'
 
-scale=1.d6
-
-R=8.3e+003
-mu=1.257E-6
-mu_gas=0.6
-gamma=1.66667
-
-xstart=0
-xend=99
-ystart=0
-yend=99
-
-pp=50 ;x
-kk=5  ;y
 
 wset,0
 !p.multi = [0,4,4,0,1]
-
-
-zstart=0
-zend=180
 
 wt=dblarr(zend-zstart+1,xend-xstart+1,iw)
 wt=reform(w(zstart:zend,xstart:xend,pp,*))
@@ -195,22 +204,22 @@ tvframe,rotate(wt(*,*,0),1), /bar,title='rho',$
 	yrange=[zz[zstart]/scale, zz[zend]/scale]		
 
 tvframe,rotate(wt(*,*,1)/(wt(*,*,0)+wt(*,*,9)),1),/sample, /bar,title='Vz',$
-        xtitle='x', ytitle='y',charsize=2.0, CT='dPdT'
+        xtitle='x', ytitle='y',charsize=2.0;, CT='dPdT'
 
 ;tek_color	
 
 ;line2_b_classic, rotate(sabx_t,1),rotate(sabz_t,1), xx, zz, 0, scale ; 0 - plot, 1 - oplot	
 
 tvframe,rotate(wt(*,*,2)/(wt(*,*,0)+wt(*,*,9)),1),/sample, /bar,title='Vx', $
-        xtitle='x', ytitle='z',charsize=2.0, CT='dPdT', $
+        xtitle='x', ytitle='z',charsize=2.0, $
 	xrange=[xx[xstart]/scale, xx[xend]/scale], $
-	yrange=[zz[zstart]/scale, zz[zend]/scale]
+	yrange=[zz[zstart]/scale, zz[zend]/scale];, CT='dPdT'
 
 tvframe,rotate(wt(*,*,3)/(wt(*,*,0)+wt(*,*,9)),1),/sample, /bar,title='Vy', $
-        xtitle='x', ytitle='z',charsize=2.0, CT='dPdT'
+        xtitle='x', ytitle='z',charsize=2.0;, CT='dPdT'
 
 tvframe,rotate(wy(*,*,2)/(wy(*,*,0)+wy(*,*,9)),1),/sample, /bar,title='Vx', $
-        xtitle='y', ytitle='z',charsize=2.0, CT='dPdT'
+        xtitle='y', ytitle='z',charsize=2.0;, CT='dPdT'
 
 tvframe,rotate(wt(*,*,4),1),/bar, /sample, title='e', xtitle='x', ytitle='z', $
         charsize=2.0
