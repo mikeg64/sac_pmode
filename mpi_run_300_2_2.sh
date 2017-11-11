@@ -6,7 +6,7 @@
 #$ -P mhd
 #$ -l mem=6G
 #$ -pe openmpi-ib 16
-#$ -N S3D_bv20G
+#$ -N bv200G
 
 
 #source /etc/profile.d/modules.sh add mpi/intel/openmpi/1.8.3
@@ -19,12 +19,12 @@ cat $PE_HOSTFILE
 echo Starting vac now.
 
 cd src
-cp vacusr_180_0_0_v10g.f vacusr.f
+cp vacusr_300_2_2_v200g.f vacusr.f
 
 make vac -f Makefile_impi
 
 cd ..
-cp par/vac_180_0_0_v10g.par vac.par
+cp par/vac_300_2_2_v200g.par vac.par
 
 /usr/local/mpi/intel/openmpi/1.8.3/bin/mpirun vac
 

@@ -62,7 +62,7 @@ dumd=long(1)
 ;mpegID = MPEG_OPEN([700,1200],FILENAME='myMovie.mpg') 
 
 window, 0,xsize=1025,ysize=1025,XPOS = 950, YPOS = 300 
-window, 1,xsize=800,ysize=800,XPOS = 500, YPOS = 80
+;window, 1,xsize=800,ysize=800,XPOS = 500, YPOS = 80
 
 
 
@@ -87,7 +87,8 @@ close,2
 
 ;openr,1,'/data/ap1vf/3D_tube_196_100_100_multidriver_lower.out',/f77_unf
 
-openr,1,'/data/ap1vf/3D_tube_196_100_100t.out',/f77_unf
+;openr,1,'/fastdata/cs1mkg/sac/p6b0_0_bv10g/3D_spic_128_bv10g_13.out',/f77_unf
+openr,1,'/fastdata/cs1mkg/smaug/p5b2_2_bv200g/3D_spic_128_bv200g_1.out',/f77_unf
 
 
 
@@ -177,19 +178,19 @@ mu_gas=0.6
 gamma=1.66667
 
 xstart=0
-xend=99
+xend=127
 ystart=0
-yend=99
+yend=127
 
-pp=49 ;x
-kk=5  ;y
+pp=63 ;x
+kk=63  ;y
 
 wset,0
 !p.multi = [0,4,4,0,1]
 
 
 zstart=0
-zend=185
+zend=127
 
 wt=dblarr(zend-zstart+1,xend-xstart+1,iw)
 wt=reform(w(zstart:zend,xstart:xend,pp,*))
@@ -249,7 +250,12 @@ zze=zz[zend]
 	
 
 tvframe,rotate(wt(*,*,1)/(wt(*,*,0)+wt(*,*,9)),1),/sample, /bar,title='Vz',$
-        xtitle='x', ytitle='y',charsize=2.0, CT='dPdT'
+        xtitle='x', ytitle='y',charsize=2.0;, CT='dPdT'
+
+
+tvframe,rotate(wy(*,*,1)/(wy(*,*,0)+wy(*,*,9)),1),/sample, /bar,title='Vz', $
+        xtitle='y', ytitle='z',charsize=2.0;, CT='dPdT'
+
 
 
 ;close,10
@@ -260,9 +266,9 @@ tvframe,rotate(wt(*,*,1)/(wt(*,*,0)+wt(*,*,9)),1),/sample, /bar,title='Vz',$
 ;close, 10
 
 tvframe,rotate(wt(*,*,2)/(wt(*,*,0)+wt(*,*,9)),1),/sample, /bar,title='Vx', $
-        xtitle='x', ytitle='z',charsize=2.0, CT='dPdT', $
-	xrange=[xx[xstart]/scale, xx[xend]/scale], $
-	yrange=[zz[zstart]/scale, zz[zend]/scale]
+        xtitle='x', ytitle='z',charsize=2.0;, CT='dPdT', $
+	;xrange=[xx[xstart]/scale, xx[xend]/scale], $
+	;yrange=[zz[zstart]/scale, zz[zend]/scale]
 
 ;close,10
 ;openw,10,'/data/ap1vf/data_line_prof/vx/vx_y50.'+st,/f77_unf
@@ -272,7 +278,7 @@ tvframe,rotate(wt(*,*,2)/(wt(*,*,0)+wt(*,*,9)),1),/sample, /bar,title='Vx', $
 ;close, 10	
 
 tvframe,rotate(wt(*,*,3)/(wt(*,*,0)+wt(*,*,9)),1),/sample, /bar,title='Vy', $
-        xtitle='x', ytitle='z',charsize=2.0, CT='dPdT'
+        xtitle='x', ytitle='z',charsize=2.0;, CT='dPdT'
 	
 ;close,10
 ;openw,10,'/data/ap1vf/data_line_prof/vy/vy_y50.'+st,/f77_unf
@@ -283,19 +289,19 @@ tvframe,rotate(wt(*,*,3)/(wt(*,*,0)+wt(*,*,9)),1),/sample, /bar,title='Vy', $
 	
 
 tvframe,rotate(wy(*,*,2)/(wy(*,*,0)+wy(*,*,9)),1),/sample, /bar,title='Vx', $
-        xtitle='y', ytitle='z',charsize=2.0, CT='dPdT'
+        xtitle='y', ytitle='z',charsize=2.0;, CT='dPdT'
 	
 
 tvframe,rotate(wt(*,*,4),1),/bar, /sample, title='e', xtitle='x', ytitle='z', $
         charsize=2.0
 
-tvframe,rotate(wt(*,*,5),1)*sqrt(mu)*1.0e4,/bar,/sample, title='bz', $
+;tvframe,rotate(wt(*,*,5),1)*sqrt(mu)*1.0e4,/bar,/sample, title='bz', $
+;        xtitle='x', ytitle='z', charsize=2.0
+
+tvframe,rotate(wt(*,*,5),1)*sqrt(mu)*1.0e4,/bar,/sample, title='Bz', $
         xtitle='x', ytitle='z', charsize=2.0
 
-tvframe,rotate(wt(*,*,11),1)*sqrt(mu)*1.0e4,/bar,/sample, title='Bx_b', $
-        xtitle='x', ytitle='z', charsize=2.0
-
-tvframe,rotate(wt(*,*,12),1)*sqrt(mu)*1.0e4,/bar,/sample, title='By_b', $
+tvframe,rotate(wt(*,*,6),1)*sqrt(mu)*1.0e4,/bar,/sample, title='Bx', $
         xtitle='x', ytitle='z', charsize=2.0
 
 tvframe,rotate(wt(*,*,8),1),/bar,/sample, title='eb', $
@@ -304,7 +310,7 @@ tvframe,rotate(wt(*,*,8),1),/bar,/sample, title='eb', $
 tvframe,rotate(wt(*,*,9),1),/bar,/sample, title='rho_b', $
         xtitle='x', ytitle='z', charsize=2.0
 
-tvframe,rotate(wt(*,*,10),1)*sqrt(mu)*1.0e4,/bar,/sample, title='Bz_b', $
+tvframe,rotate(wt(*,*,7),1)*sqrt(mu)*1.0e4,/bar,/sample, title='By', $
         xtitle='x', ytitle='z', charsize=2.0, $
 	xrange=[xx[xstart]/scale, xx[xend]/scale], $
 	yrange=[zz[zstart]/scale, zz[zend]/scale]	
@@ -374,7 +380,7 @@ image_p = TVRD_24()
 np=np+1
 
 ;goto, jump10
-wset,1
+;wset,1
 !p.multi = [0,2,2,0,1]
 
 ;for hh=0,n1-1 do begin
@@ -517,40 +523,40 @@ for i=0,n2-1 do begin
 endfor
 
 
-tvframe,br(hxmin:hxmax,hymin:hymax),/bar,/sample, title='br, zslice, h='+hight, $
-        xtitle='x', ytitle='y', charsize=cs, $
-	xrange=[xx(hxmin)/scale, xx(hxmax)/scale], yrange=[yy(hymin)/scale, yy(hymax)/scale]	
+;tvframe,br(hxmin:hxmax,hymin:hymax),/bar,/sample, title='br, zslice, h='+hight, $
+;        xtitle='x', ytitle='y', charsize=cs, $
+;	xrange=[xx(hxmin)/scale, xx(hxmax)/scale], yrange=[yy(hymin)/scale, yy(hymax)/scale]	
 	
-tek_color
-VELOVECT, abxi, abyi,xxi/scale,yyi/scale, charsize=1.4, /OVERPLOT ;, color=6
-	
-
-tvframe,vvt(hxmin:hxmax,hymin:hymax),/bar,/sample, title='V_T, zslice, h='+hight, $
-        xtitle='x', ytitle='y', charsize=cs, $
-	xrange=[xx(hxmin)/scale, xx(hxmax)/scale], yrange=[yy(hymin)/scale, yy(hymax)/scale]	
-	
-tek_color
-VELOVECT, avxi, avyi,xxi/scale,yyi/scale, charsize=1.4, /OVERPLOT ;, color=6
-
-tvframe,bphi(hxmin:hxmax,hymin:hymax),/bar,/sample, title='bphi, zslice, h='+hight, $
-        xtitle='x', ytitle='y', charsize=cs, $
-	xrange=[xx(hxmin)/scale, xx(hxmax)/scale], yrange=[yy(hymin)/scale, yy(hymax)/scale]	
-	
-tek_color
-VELOVECT, abxi, abyi,xxi/scale,yyi/scale, charsize=1.4, /OVERPLOT ;, color=6
+;tek_color
+;VELOVECT, abxi, abyi,xxi/scale,yyi/scale, charsize=1.4, /OVERPLOT ;, color=6
 	
 
-tvframe,wv(hxmin:hxmax,hymin:hymax,3)/(wv(hxmin:hxmax,hymin:hymax,0)+wv(hxmin:hxmax,hymin:hymax,9)),/bar,/sample,$ 
-        title='Vx, zslice, h='+hight, $
-        xtitle='x', ytitle='y', charsize=cs, $
-	xrange=[xx(hxmin)/scale, xx(hxmax)/scale], yrange=[yy(hymin)/scale, yy(hymax)/scale]	
+;tvframe,vvt(hxmin:hxmax,hymin:hymax),/bar,/sample, title='V_T, zslice, h='+hight, $
+;        xtitle='x', ytitle='y', charsize=cs, $
+;	xrange=[xx(hxmin)/scale, xx(hxmax)/scale], yrange=[yy(hymin)/scale, yy(hymax)/scale]	
+	
+;tek_color
+;VELOVECT, avxi, avyi,xxi/scale,yyi/scale, charsize=1.4, /OVERPLOT ;, color=6
+
+;tvframe,bphi(hxmin:hxmax,hymin:hymax),/bar,/sample, title='bphi, zslice, h='+hight, $
+ ;       xtitle='x', ytitle='y', charsize=cs, $
+;	xrange=[xx(hxmin)/scale, xx(hxmax)/scale], yrange=[yy(hymin)/scale, yy(hymax)/scale]	
+	
+;tek_color
+;VELOVECT, abxi, abyi,xxi/scale,yyi/scale, charsize=1.4, /OVERPLOT ;, color=6
+	
+
+;tvframe,wv(hxmin:hxmax,hymin:hymax,3)/(wv(hxmin:hxmax,hymin:hymax,0)+wv(hxmin:hxmax,hymin:hymax,9)),/bar,/sample,$ 
+;        title='Vx, zslice, h='+hight, $
+;        xtitle='x', ytitle='y', charsize=cs, $
+;	xrange=[xx(hxmin)/scale, xx(hxmax)/scale], yrange=[yy(hymin)/scale, yy(hymax)/scale]	
 
 ;tvframe,vphi(hxmin:hxmax,hymin:hymax),/bar,/sample, title='Vphi, zslice, h='+hight, $
 ;       xtitle='x', ytitle='y', charsize=cs, $
 ;	xrange=[xx(hxmin)/scale, xx(hxmax)/scale], yrange=[yy(hymin)/scale, yy(hymax)/scale]	
 	
-tek_color
-VELOVECT, avxi, avyi,xxi/scale,yyi/scale, charsize=1.4, /OVERPLOT ;, color=6
+;tek_color
+;VELOVECT, avxi, avyi,xxi/scale,yyi/scale, charsize=1.4, /OVERPLOT ;, color=6
 	
 ;wait, 0.5
 ;endfor
